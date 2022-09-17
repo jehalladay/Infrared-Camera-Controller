@@ -36,7 +36,7 @@ while True:
 #         print(f"list {x} has: ", end="")
         print("numReadings\n",numReadings[x], end="\n\n")
         print(f"frameRow {x}:\n", frameRow, end="\n\n")
-        for i in range (0, 31):
+        for i in range (0, 31): #We can delete this block later, After testing is exhausted!
             if frameRow[i] != numReadings[x][i]:
                 printf(f"Error difference in readings: in frameRow: {frameRow[i]} in numReadings[x]: {numReadings[x][i]}\n")
                 quit()
