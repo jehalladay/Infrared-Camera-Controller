@@ -26,11 +26,13 @@ while True:
         mlx.getFrame(frame)
     except ValueError:#if read failed, try again w/o delay
         continue
+    start, end = 0, 31
     formatedFrame = ['%.2f' % x for x in frame]
+    for i in range(0, 24): #reverse slices of the frame by rows
+        formatedFrame[start:end] = formatedFrame[start:end][::-1] # <----- is there a way to cast and flip rows?
+        start = start+32
+        end = end+32
     today = date.today()
-    # with open(f"{today}.csv", 'a') as file:
-    #     write = csv.writer(file)
-    #     write.writerows(formatedFrame)
     print(f"Writing at time: {stamp}\n{formatedFrame}\n")
     np.savetxt(f"./readingsCSV/{today}.csv", formatedFrame, delimiter=", ", fmt='% s')
     time.sleep(3 - (time.monotonic() - stamp)) #Wait 3 seconds from read
