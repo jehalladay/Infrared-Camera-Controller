@@ -10,7 +10,15 @@ import matplotlib.cbook as cbook
 
 warnings.filterwarnings("ignore",category=cbook.mplDeprecation)
 
-def convert_csv_to_png(file_name: str, output_dir: str = 'output', width: int = 32, height: int = 24, scaling_factor: int = 3):
+def convert_csv_to_png(
+    file_name: str, 
+    output_dir: str = 'output', 
+    width: int = 32, 
+    height: int = 24,
+    scaling_factor: int = 3,
+    precision: int = 4, # the number is in the form xx.xx, after scaling it will be 0.xxxx
+    round: bool = True
+):
     '''
         This function will convert the csv file to a series of png images
         Parameters:
@@ -38,6 +46,10 @@ def convert_csv_to_png(file_name: str, output_dir: str = 'output', width: int = 
         pixels = (pixels - min) / (max - min)
         # raise the pixels to the power of the scaling factor to make the contrast between events higher
         pixels = pixels ** scaling_factor
+
+        # change precision back to default in the df
+        if round:
+            df[pixel_columns] = df[pixel_columns].round(precision)
 
 
         # create the image
