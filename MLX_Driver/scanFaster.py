@@ -7,7 +7,7 @@ import adafruit_mlx90640
             
 width = 32
 height = 24
-i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
+i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
 
 mlx = adafruit_mlx90640.MLX90640(i2c)
 print("MLX addr detected on I2C")
@@ -61,22 +61,25 @@ def new_main(file_name: str = './readingsCSV/test.csv', width: int = 32, height:
 
     create_csv(file_name, width = width, height = height)
 
-    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_32_HZ
+    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_1_HZ
 
     while True:
         stamp = time.monotonic()
         scan_and_flip(file_name, width = width, height = height)
         print(f"Writing at {stamp}")
-        time.sleep(0.00100)# - (time.monotonic() - stamp))
+        time.sleep(1 - (time.monotonic() - stamp))
 
 
 #Leaving here for testing
 def old_main():
-    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_32_HZ
+
+    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_1_HZ
+
     frame = [0] * 768 #Sets indexes to 0 this holds the IR readings     
     readings = [[0]*width]*height #This puts readings back into 2d matrix    <---- One of these will be made obselete
     numReadings = [[0]*width]*height #This puts readings back into 2d matrix <---- One of these will be made obselete
     frameRow = list()
+
     while True:
         stamp = time.monotonic()
         try:
