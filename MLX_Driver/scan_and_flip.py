@@ -36,7 +36,7 @@ def append_csv(file_name: str, data: list):
         f.write('\n' + ','.join([str(i) for i in data]))
 
 
-def scan_and_flip(file_name: str, width: int = 32, height: int = 24) -> :
+def scan_and_flip(file_name: str, width: int = 32, height: int = 24):
     '''
         This function will scan the MLX90640 and flip the data
         The data will be appended to the csv file
@@ -45,7 +45,7 @@ def scan_and_flip(file_name: str, width: int = 32, height: int = 24) -> :
     frame = [0] * width * height
     try: 
         mlx.getFrame(frame)
-
+        frame = ['%.2f' % x for x in frame]
         start, end = 0, width
         for i in range(height):
             frame[start:end] = frame[start:end][::-1]
@@ -57,7 +57,7 @@ def scan_and_flip(file_name: str, width: int = 32, height: int = 24) -> :
         pass
 
 
-def new_main(file_name: str = 'test.csv', width: int = 32, height: int = 24):
+def new_main(file_name: str = './readingsCSV/test.csv', width: int = 32, height: int = 24):
 
     create_csv(file_name, width = width, height = height)
 
@@ -66,9 +66,11 @@ def new_main(file_name: str = 'test.csv', width: int = 32, height: int = 24):
     while True:
         stamp = time.monotonic()
         scan_and_flip(file_name, width = width, height = height)
+        print(f"Writing at {stamp}")
         time.sleep(3 - (time.monotonic() - stamp))
 
 
+#Leaving here for testing
 def old_main():
 
     mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_1_HZ
