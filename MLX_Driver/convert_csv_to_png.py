@@ -16,52 +16,52 @@ def convert_csv_to_png(
     width: int = 32, 
     height: int = 24,
     scaling_factor: int = 3,
-    precision: int = 4, # the number is in the form xx.xx, after scaling it will be 0.xxxx
-    round: bool = True
 ):
     '''
         This function will convert the csv file to a series of png images
         Parameters:
             file_name: the name of the csv file
             output_dir: the name of the output directory
-            width: the width of the pixels
-            height: the height of the pixels
+            width: the width of the frame
+            height: the height of the frame
+            scaling_factor: the number of standard deviations from the mean to include in the heatmap
     '''
+
     df = pd.read_csv(file_name)
     pixel_columns = [f'pixel_{i}' for i in range(width * height)]
 
+    # create output directory if it doesn't exist
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    # silence the MatplotlibDeprecationWarrning
-    plt.rcParams.update({'figure.max_open_warning': 0})
     for i in range(len(df)):
-        print(f'Converting row {i} to png')
 
-        row = df.iloc[i] # grab next row
-        pixels = np.array(row[pixel_columns]).reshape(height, width) # reshape into 2d array
+        # grab the next row
+        row = df.iloc[i]
 
-        # rescale to 0-1 using the min and max of every frame so transitions are continuous
-        min, max = np.min(df.values), np.max(df.values)
-        pixels = (pixels - min) / (max - min)
-        # raise the pixels to the power of the scaling factor to make the contrast between events higher
-        pixels = pixels ** scaling_factor
+        # reshape into 2d array
+        frame = np.array(row[pixel_columns]).reshape(height, width) 
 
-        # change precision back to default in the df
-        if round:
-            df[pixel_columns] = df[pixel_columns].round(precision)
+        # grab statistical data on the frame
+        std, mean = np.std(frame), np.mean(frame)
 
-
+        # set up min and max values for picture scaling
+        min = mean - scaling_factor * std
+        max = mean + scaling_factor * std
+        
         # create the image
         fig, ax = plt.subplots()
-        thermal = ax.imshow(np.zeros((height, width)), vmin = 0, vmax = 60)
+        thermal = ax.imshow(np.zeros((height, width)), vmin = min, vmax = max)
         cbar = fig.colorbar(thermal)
-        thermal.set_data(pixels)
-        thermal.set_clim(vmin = np.min(pixels), vmax = np.max(pixels))
+        cbar.set_label('Temperature [$^{\circ}$C]', fontsize=14)
+
+        thermal.set_data(frame)
+        thermal.set_clim(vmin = min, vmax = max)
         ax.set_axis_off()
 
         # save the image
-        img_name = f'frame_{i}.png'
+        img_name = f'frame_{i}'
+        print(f'Converting row {i} to {output_dir}/{img_name}.png; min: {min}, max: {max}, mean: {mean}, std: {std}')
         fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
         plt.close(fig)
 
