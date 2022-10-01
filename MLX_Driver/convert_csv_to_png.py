@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 
 warnings.filterwarnings("ignore",category=cbook.mplDeprecation)
-
 def convert_csv_to_png(
     file_name: str, 
     output_dir: str = 'output', 
