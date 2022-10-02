@@ -20,6 +20,7 @@ for i in range(5):
         # save frame (a np array) to csv
 
         flag = False
+        print(frame.shape)
         frame = frame.reshape(-1)
         frame = [str(x) for x in frame]
         pd.DataFrame(frame).to_csv("frame.csv", index = False, header = False)
