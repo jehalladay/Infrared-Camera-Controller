@@ -1,5 +1,5 @@
 import time
-import pandas as np
+import pandas as pd
 
 import cv2
 
