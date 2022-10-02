@@ -29,6 +29,7 @@ def scan_and_flip(file_name: str, width: int = 32, height: int = 24, verbose: bo
 
         !! Cannot be called by outside files, else the mlx object will not exist
     '''
+    
     stamp = time.monotonic()
         
     frame = [0] * width * height
@@ -57,7 +58,7 @@ def main(file_name: str = './readingsCSV/test.csv', width: int = 32, height: int
         This function will control the loop for operating the infrared camera
     '''
 
-    columns = [f'pixel_{i}' for i in range(width * height)]
+    columns = ['timestamp'] + [f'pixel_{i}' for i in range(width * height)]
 
     create_csv(
         file_name, 
@@ -71,7 +72,6 @@ def main(file_name: str = './readingsCSV/test.csv', width: int = 32, height: int
 
         scan_and_flip(file_name, width = width, height = height, verbose = verbose)
         
-            
         time.sleep(3)
 
 
@@ -84,21 +84,28 @@ if __name__ == '__main__':
     print("MLX addr detected on I2C")
     print([hex(i) for i in mlx.serial_number])
 
-    if len(sys.argv) > 3:
+    # get todays date
+    date = time.strftime("%Y_%m_%d")
+
+    file_name = f'./readingsCSV/infrared_{date}.csv'
+    height = 24
+    width = 32
+    channels = 1
+    verbose = False
+
+    if len(sys.argv) > 1:
         file_name = sys.argv[1] 
+    if len(sys.argv) > 2:
         width = int(sys.argv[2])
+    if len(sys.argv) > 3:
         height = int(sys.argv[3])
-        verbose = False
+    if len(sys.argv > 4):
+        verbose = bool(int(sys.argv[4]))
 
-        if len(sys.argv > 4):
-            verbose = bool(int(sys.argv[4]))
+    main(
+        file_name = file_name, 
+        width = width, 
+        height = height, 
+        verbose = verbose
+    )
 
-        main(
-            file_name = file_name, 
-            width = width, 
-            height = height, 
-            verbose = verbose
-        )
-
-    else:
-        main()

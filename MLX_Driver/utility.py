@@ -27,5 +27,5 @@ def append_csv(file_name: str, data: list, metadata: list = []):
     '''
 
     with open(file_name, 'a') as f:
-        sample = data + metadata
+        sample = metadata + data
         f.write('\n' + ','.join([str(i) for i in sample]))
