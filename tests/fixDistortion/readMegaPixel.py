@@ -12,8 +12,6 @@ for i in range(6):
     print(f"image: {i+1}, in 2 seconds")
     sleep(2)
     ret, frame = cap.read() #Capture a frame
-    # if(ret == false):
-    #     ret, frame = cap.read() #Capture a frame
     out = imwrite(f"./images/capture_{i}.jpg", frame)
     cap.release()
     cap = VideoCapture(0)
