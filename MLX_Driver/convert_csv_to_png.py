@@ -74,5 +74,4 @@ if __name__ == "__main__":
         Converting {file_name} to png images
         Output directory: {output_dir}
     ''')
-
     convert_csv_to_png(file_name, output_dir = output_dir, scaling_factor = scaling_factor)

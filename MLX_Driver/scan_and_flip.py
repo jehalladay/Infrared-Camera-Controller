@@ -13,14 +13,11 @@ import sys, time
 import board
 import busio
 import adafruit_mlx90640
-
 import numpy as np
-
 from utility import (
     create_csv,
     append_csv
 )
-
 
 def scan_and_flip(file_name: str, width: int = 32, height: int = 24, verbose: bool = False):
     '''
@@ -29,11 +26,8 @@ def scan_and_flip(file_name: str, width: int = 32, height: int = 24, verbose: bo
 
         !! Cannot be called by outside files, else the mlx object will not exist
     '''
-    
     stamp = time.monotonic()
-        
     frame = [0] * width * height
-    
     try: 
         mlx.getFrame(frame)
         frame = ['%.2f' % x for x in frame]
@@ -46,12 +40,9 @@ def scan_and_flip(file_name: str, width: int = 32, height: int = 24, verbose: bo
             
         if verbose:
             print(f"print@ {stamp}\n{frame}\n\n")
-
         append_csv(file_name, frame, metadata = [stamp])
-
     except ValueError:
         pass
-
 
 def main(file_name: str = './readingsCSV/test.csv', width: int = 32, height: int = 24, verbose: bool = False):
     '''
@@ -69,14 +60,10 @@ def main(file_name: str = './readingsCSV/test.csv', width: int = 32, height: int
     while True:
         if verbose:
             print(f"Writing at {time.monotonic()}")
-
         scan_and_flip(file_name, width = width, height = height, verbose = verbose)
-        
         time.sleep(3)
 
-
 if __name__ == '__main__':
-
     i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
     mlx = adafruit_mlx90640.MLX90640(i2c)
     mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_32_HZ
@@ -108,4 +95,3 @@ if __name__ == '__main__':
         height = height, 
         verbose = verbose
     )
-
