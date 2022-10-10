@@ -15,5 +15,5 @@ min,max = np.min(df.values), np.max(df.values)
 std_deviation = statistics.pstdev(row)
 mean = sum(row) / len(row)
 print(f"The mean reading is {mean} and standard deviation is {std_deviation}")
-ax = sns.heatmap(pixels, vmin = (mean-(2*std_deviation)), vmax =max, center = 0, linewidth=0.5) #Applying range rule of thumb from stat200
+ax = sns.heatmap(pixels, vmin = (mean-(2*std_deviation)), vmax =(mean+(2*std_deviation)), center = 0, linewidth=0.5) #Applying range rule of thumb from stat200
 plt.show()
