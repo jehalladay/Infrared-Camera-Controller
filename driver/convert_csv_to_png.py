@@ -5,6 +5,7 @@ This file will take the pixel columns of a csv file and convert each row to a pn
 import os, sys, warnings
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 
@@ -45,19 +46,24 @@ def convert_csv_to_png(
         std, mean = np.std(frame), np.mean(frame)
 
         # # set up min and max values for picture scaling
-        min = mean - scaling_factor * std
-        max = mean + scaling_factor * std
+        # min = mean - scaling_factor * std
+        # max = mean + scaling_factor * std
 
-        #remove this line later
-        # min = np.min(frame)
-        # max = np.max(frame)
+        # remove these line later
+        min = mean - (std)
+        max = np.max(frame)
         
         # create the image
         fig, ax = plt.subplots()
         thermal = ax.imshow(np.zeros((height, width)), vmin = min, vmax = max)
         cbar = fig.colorbar(thermal)
         cbar.set_label('Temperature [$^{\circ}$C]', fontsize=14)
+        
+        #Below for Seaborn map, comment out above block!
+        ax = plt.subplots()
+        ax = sns.heatmap(frame, vmin = min, vmax =max, cmap='rocket') #Applying range rule of thumb from stat200
 
+        #for thermal map
         thermal.set_data(frame)
         thermal.set_clim(vmin = min, vmax = max)
         ax.set_axis_off()
@@ -65,9 +71,12 @@ def convert_csv_to_png(
         # save the image
         img_name = f'frame_{i}'
         print(f'Converting row {i} to {output_dir}/{img_name}.png; min: {min}, max: {max}, mean: {mean}, std: {std}')
+        #below for thermal
         fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
         plt.close(fig)
-
+        
+        #this one for seaborn
+        # plt.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
 
 if __name__ == "__main__":
     file_name = sys.argv[1]

@@ -27,29 +27,27 @@ K=np.array([[226.78774808876156, 0.0, 323.7695330830304], [0.0, 226.727925305339
 D=np.array([[-0.001113892387730428], [0.007489372244509825], [-0.019657948056696923], [0.0050755188856704755]])
 
 file_name_ir = f'./data/{time.strftime("%Y_%m_%d")}_ir2.csv'
-file_name_mp = f'./data/{time.strftime("%Y_%m_%d")}_mp.csv'
-
 frm = 1
 
 ir_frame = [0] * width * height
 columns_ir = ['timestamp'] + [f'pixel_{i}' for i in range(width * height)]
-column_mp = ['timestamp'] + [f'pixel_{i}' for i in range(640 * 480 * 3)]
 
 create_csv(file_name_ir, columns_ir, True)
 # create_csv(file_name_mp, column_mp, False)
 while(1):
     stamp = time.monotonic()
-    # cap = VideoCapture(0) #specify what USB to read from
+    cap = VideoCapture(0) #specify what USB to read from
     try: 
-        # ret, mp_cap = cap.read()
-        # while(ret is False):
-        #     ret, mp_cap = cap.read()
-            # time.sleep(0.2) #Give processor a break
+        ret, mp_cap = cap.read()
+        while(ret is False):
+            ret, mp_cap = cap.read()
+            time.sleep(0.2) #Give processor a break
         mlx.getFrame(ir_frame) #Capture frame from both cameras @ ~same_time
         #Configure ir_frame
         time.sleep(0.2) #Give processor a break
         if_frame = ['%.2f' % x for x in ir_frame]
         time.sleep(0.2) #Give processor a break
+        #The next 5 lines should be deleted once the camera flipping is implemented in convert_csv**.py 
         start, end = 0, width
         for i in range(height):
             ir_frame[start:end] = ir_frame[start:end][::-1]
@@ -59,16 +57,15 @@ while(1):
         append_csv(file_name_ir, ir_frame, metadata = [stamp]) #Outputs IR camera data as an CSV
         time.sleep(0.2) #Give processor a break
 
-        # mp_frame = mp_cap.reshape(-1)
         #Configure frame from mega_pixel
-        # time.sleep(0.2) #Give processor a break
-        # # append_csv(file_name_mp, mp_frame, metadata = [stamp]) #Outputs IR camera data as an CSV
-        # imwrite(f"./data/{stamp}.jpg", mp_cap)
-        # time.sleep(0.2) #Give processor a break
-        # cap.release()
-        # print(f"Completed Run: {frm}")
-        # frm+=1
+        time.sleep(0.2) #Give processor a break
+        append_csv(file_name_mp, mp_frame, metadata = [stamp]) #Outputs IR camera data as an CSV
+        imwrite(f"./data/{stamp}.jpg", mp_cap)
+        time.sleep(0.2) #Give processor a break
+        cap.release()
+        # print(f"Completed Run: {frm}") 
+        frm+=1
+        print(f'\n\nRunning frame: {frm+1} in 3 seconds\n')#Keep this while testing
         time.sleep(3 - (time.monotonic() - stamp))
-        print('\n\nRunning again\n')
     except ValueError:
         pass
