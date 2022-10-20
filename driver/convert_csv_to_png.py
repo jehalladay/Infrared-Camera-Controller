@@ -44,9 +44,13 @@ def convert_csv_to_png(
         # grab statistical data on the frame
         std, mean = np.std(frame), np.mean(frame)
 
-        # set up min and max values for picture scaling
+        # # set up min and max values for picture scaling
         min = mean - scaling_factor * std
         max = mean + scaling_factor * std
+
+        #remove this line later
+        # min = np.min(frame)
+        # max = np.max(frame)
         
         # create the image
         fig, ax = plt.subplots()

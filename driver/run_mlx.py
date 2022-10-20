@@ -1,13 +1,10 @@
 import sys, time
-
 import board
 import busio
 import adafruit_mlx90640
-
 from utility import (
     create_csv,
 )
-
 from MLX.scan_and_flip import (
     scan_and_flip
 )
@@ -34,7 +31,7 @@ def main(file_name: str = './readingsCSV/test.csv', width: int = 32, height: int
 if __name__ == '__main__':
     i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
     mlx = adafruit_mlx90640.MLX90640(i2c)
-    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
+    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_4_HZ
 
     print("MLX addr detected on I2C")
     print([hex(i) for i in mlx.serial_number])
