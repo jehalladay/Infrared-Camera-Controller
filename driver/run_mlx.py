@@ -27,7 +27,8 @@ from utils.constants import (
     LOCATION,
     PATH,
     FREQUENCY,
-    DURATION
+    DURATION,
+    DATE_FORMAT
 )
 
 from MLX.scan_and_flip import (
@@ -89,7 +90,7 @@ if __name__ == '__main__':
     print([hex(i) for i in mlx.serial_number])
 
     # get todays date
-    date = time.strftime("%Y_%m_%d")
+    date = time.strftime(DATE_FORMAT)
 
     # load config from ./config/mlx.json
     config: dict = json.load(open(MLX_CONFIG_JSON, 'r'))

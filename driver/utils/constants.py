@@ -23,3 +23,8 @@ FREQUENCY = 'frequency'
 DURATION = 'duration'
 
 # Trigger keys
+
+
+# Misc constants
+
+DATE_FORMAT = '%Y_%m_%d'
