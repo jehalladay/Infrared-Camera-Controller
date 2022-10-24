@@ -42,7 +42,8 @@ def scan_and_flip(
 
     mlx.getFrame(frame)
     print("\t", frame)
-    frame = [f'%.{precision}f' % x for x in frame]
+    # frame = [f'%.{precision}f' % x for x in frame]
+    frame = [round(x, precision) for x in frame]
     print("\t", frame)
     start, end = 0, width
     
