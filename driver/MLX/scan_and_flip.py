@@ -12,13 +12,13 @@ import time
 from typing import Tuple
 import numpy as np
 
-from ..utils.types import (
+from utils.types import (
     Frame,
     Metadata,
     Picture
 )
 
-from ..utils.csv_handling import (
+from utils.csv_handling import (
     create_csv,
     append_csv
 )

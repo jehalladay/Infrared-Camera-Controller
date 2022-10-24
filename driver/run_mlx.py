@@ -36,14 +36,14 @@ from MLX.scan_and_flip import (
 )
 
 def main(
-    file_name: str = './readingsCSV/test.csv', 
-    width: int = 32, 
-    height: int = 24,
-    channels: int = 1,
-    precision: int = 2,
-    duration: int = 120,
-    frequency: int = 3,
-    verbose: bool = False
+    file_name: str  = './readingsCSV/test.csv', 
+    width    : int  = 32, 
+    height   : int  = 24,
+    channels : int  = 1,
+    precision: int  = 2,
+    duration : int  = 120,
+    frequency: int  = 3,
+    verbose  : bool = False
 ) -> None:
     '''
         This function will control the loop for operating the infrared camera
