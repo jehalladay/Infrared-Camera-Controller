@@ -41,17 +41,17 @@ def convert_csv_to_png(
 
         # reshape into 2d array
         frame = np.array(row[pixel_columns]).reshape(height, width) 
-
+        frame[8][2] = (frame[7][2] + frame[9][2] + frame[8][1] + frame[8][3]) / 4
         # grab statistical data on the frame
         std, mean = np.std(frame), np.mean(frame)
 
-        # # set up min and max values for picture scaling
-        # min = mean - scaling_factor * std
-        # max = mean + scaling_factor * std
+        # set up min and max values for picture scaling
+        min = mean - scaling_factor * std
+        max = mean + scaling_factor * std
 
         # remove these line later
-        min = mean - (std)
-        max = np.max(frame)
+        # min = mean - (std)
+        # max = np.max(frame)
         
         # create the image
         fig, ax = plt.subplots()
@@ -60,8 +60,8 @@ def convert_csv_to_png(
         cbar.set_label('Temperature [$^{\circ}$C]', fontsize=14)
         
         #Below for Seaborn map, comment out above block!
-        ax = plt.subplots()
-        ax = sns.heatmap(frame, vmin = min, vmax =max, cmap='rocket') #Applying range rule of thumb from stat200
+        # ax = plt.subplots()
+        # ax = sns.heatmap(frame, vmin = min, vmax =max, cmap='rocket') #Applying range rule of thumb from stat200
 
         #for thermal map
         thermal.set_data(frame)

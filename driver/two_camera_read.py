@@ -22,18 +22,16 @@ mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_8_HZ
 width: int = 32
 height: int = 24
 dimensions = (640, 480)
-#These need to be hardcoded
-K=np.array([[226.78774808876156, 0.0, 323.7695330830304], [0.0, 226.72792530533906, 218.94459567242427], [0.0, 0.0, 1.0]])
-D=np.array([[-0.001113892387730428], [0.007489372244509825], [-0.019657948056696923], [0.0050755188856704755]])
 
 file_name_ir = f'./data/{time.strftime("%Y_%m_%d")}_ir2.csv'
+file_name_mp = f'./data/{time.strftime("%Y_%m_%d")}_mp.csv'
 frm = 1
 
 ir_frame = [0] * width * height
 columns_ir = ['timestamp'] + [f'pixel_{i}' for i in range(width * height)]
 
 create_csv(file_name_ir, columns_ir, True)
-# create_csv(file_name_mp, column_mp, False)
+create_csv(file_name_mp, column_mp, False)
 while(1):
     stamp = time.monotonic()
     cap = VideoCapture(0) #specify what USB to read from
@@ -63,7 +61,6 @@ while(1):
         imwrite(f"./data/{stamp}.jpg", mp_cap)
         time.sleep(0.2) #Give processor a break
         cap.release()
-        # print(f"Completed Run: {frm}") 
         frm+=1
         print(f'\n\nRunning frame: {frm+1} in 3 seconds\n')#Keep this while testing
         time.sleep(3 - (time.monotonic() - stamp))
