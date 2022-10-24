@@ -116,7 +116,7 @@ if __name__ == '__main__':
     width = int(config[SIZE][WIDTH])
     height = int(config[SIZE][HEIGHT])
     channels = int(config[SIZE][CHANNELS])
-    precision = float(config[STORAGE][PRECISION])
+    precision = int(config[STORAGE][PRECISION])
     duration = float(config[RECORDING][DURATION])
     frequency = float(config[RECORDING][FREQUENCY])
 
