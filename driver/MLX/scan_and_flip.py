@@ -34,8 +34,9 @@ def scan_and_flip(
     '''
         This function will scan the MLX90640 and flip the data
         The data will be appended to the csv file
-
     '''
+    print(f'scan_and_flip running with params: {width}, {height}, {channels}, {precision}, {verbose}')
+    
     stamp = time.monotonic()
     frame = [0] * width * height * channels
 
