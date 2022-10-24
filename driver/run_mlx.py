@@ -99,12 +99,12 @@ if __name__ == '__main__':
     file_name = file_path + config[STORAGE][LOCATION].format(date=date)
 
     verbose = False
-    width = config[SIZE][WIDTH]
-    height = config[SIZE][HEIGHT]
-    channels = config[SIZE][CHANNELS]
-    precision = config[STORAGE][PRECISION]
-    duration = config[RECORDING][DURATION]
-    frequency = config[RECORDING][FREQUENCY]
+    width = int(config[SIZE][WIDTH])
+    height = int(config[SIZE][HEIGHT])
+    channels = int(config[SIZE][CHANNELS])
+    precision = float(config[STORAGE][PRECISION])
+    duration = float(config[RECORDING][DURATION])
+    frequency = float(config[RECORDING][FREQUENCY])
 
     if len(sys.argv) > 1:
         file_name = sys.argv[1] 
