@@ -1,8 +1,8 @@
 import json, sys, time
 
+import adafruit_mlx90640
 import board
 import busio
-import adafruit_mlx90640
 
 from utils.csv_handling import (
     append_csv,
@@ -59,23 +59,11 @@ def main(
         verbose = verbose 
     )
 
-    print("values passed into main")
-    print(f"file_name: {file_name}")
-    print(f"width: {width}")
-    print(f"height: {height}")
-    print(f"channels: {channels}")
-    print(f"precision: {precision}")
-    print(f"duration: {duration}")
-    print(f"frequency: {frequency}")
-    print(f"verbose: {verbose}")
-
     while duration > 0:
-        print(f"\tduration: {duration}")
         if verbose:
             print(f"Writing at {time.monotonic()}")
         
         try:
-            print("trying to scan and flip")
             frame, metadata = scan_and_flip(
                 mlx, 
                 width = width, 
@@ -85,11 +73,9 @@ def main(
                 verbose = verbose
             )
 
-            print("trying to append to csv")
             append_csv(file_name, frame, metadata = metadata)
             duration -= frequency
             time.sleep(frequency)
-            print('sleeping')
 
         except ValueError:
             duration -= 0.2
@@ -128,15 +114,6 @@ if __name__ == '__main__':
         height = int(sys.argv[3])
     if len(sys.argv) > 4:
         verbose = bool(int(sys.argv[4]))
-
-    print("values passed into main")
-    print(f"file_name: {file_name}")
-    print(f"width: {width}")
-    print(f"height: {height}")
-    print(f"channels: {channels}")
-    print(f"precision: {precision}")
-    print(f"duration: {duration}")
-    print(f"frequency: {frequency}")
 
     main(
         file_name = file_name, 
