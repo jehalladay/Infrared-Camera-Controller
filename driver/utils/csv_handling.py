@@ -2,6 +2,12 @@
     File contains utility functions that are used by other files
 '''
 
+from .types import (
+    Frame,
+    Metadata,
+    Picture
+)
+
 def create_csv(file_name: str, columns: list = [], verbose: bool = False):
     '''
         This function will check to see if a csv file exists
