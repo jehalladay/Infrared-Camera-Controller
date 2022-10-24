@@ -41,7 +41,9 @@ def scan_and_flip(
     frame = [0] * width * height * channels
 
     mlx.getFrame(frame)
+    print("\t", frame)
     frame = [f'%.{precision}f' % x for x in frame]
+    print("\t", frame)
     start, end = 0, width
     
     for i in range(height * channels):
