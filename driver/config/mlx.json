@@ -1,3 +1,17 @@
 {
-    
+    "size": {
+        "width": 32,
+        "height": 24,
+        "channels": 1
+    },
+    "storage": {
+        "precision": 2,
+        "location": "infrared_{date}.csv",
+        "path": "./readingsCSV/"
+    },
+    "recording": {
+        "frequency": 3,
+        "duration": 60
+    },
+    "triggers": {}
 }

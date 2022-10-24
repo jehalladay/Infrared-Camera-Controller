@@ -23,20 +23,27 @@ from ..utils.csv_handling import (
     append_csv
 )
 
-def scan_and_flip(mlx, width: int = 32, height: int = 24, verbose: bool = False) -> Picture:
+def scan_and_flip(
+    mlx, 
+    width: int = 32, 
+    height: int = 24,
+    channels: int = 1,
+    precision: int = 2,
+    verbose: bool = False
+) -> Picture:
     '''
         This function will scan the MLX90640 and flip the data
         The data will be appended to the csv file
 
     '''
     stamp = time.monotonic()
-    frame = [0] * width * height
+    frame = [0] * width * height * channels
 
     mlx.getFrame(frame)
-    frame = ['%.2f' % x for x in frame]
+    frame = [f'%.{precision}f' % x for x in frame]
     start, end = 0, width
     
-    for i in range(height):
+    for i in range(height * channels):
         frame[start:end] = frame[start:end][::-1]
         start += width
         end += width
