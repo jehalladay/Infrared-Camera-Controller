@@ -9,33 +9,39 @@
 '''
 
 import time
+from typing import Tuple
 import numpy as np
-from ..utility import (
+
+from ..utils.types import (
+    Frame,
+    Metadata,
+    Picture
+)
+
+from ..utils.csv_handling import (
     create_csv,
     append_csv
 )
 
-def scan_and_flip(file_name: str, mlx, width: int = 32, height: int = 24, verbose: bool = False):
+def scan_and_flip(mlx, width: int = 32, height: int = 24, verbose: bool = False) -> Picture:
     '''
         This function will scan the MLX90640 and flip the data
         The data will be appended to the csv file
 
-        !! Cannot be called by outside files, else the mlx object will not exist
     '''
     stamp = time.monotonic()
     frame = [0] * width * height
-    try: 
-        mlx.getFrame(frame)
-        frame = ['%.2f' % x for x in frame]
-        start, end = 0, width
+
+    mlx.getFrame(frame)
+    frame = ['%.2f' % x for x in frame]
+    start, end = 0, width
+    
+    for i in range(height):
+        frame[start:end] = frame[start:end][::-1]
+        start += width
+        end += width
         
-        for i in range(height):
-            frame[start:end] = frame[start:end][::-1]
-            start += width
-            end += width
-            
-        if verbose:
-            print(f"print@ {stamp}\n{frame}\n\n")
-        append_csv(file_name, frame, metadata = [stamp])
-    except ValueError:
-        pass
+    if verbose:
+        print(f"print@ {stamp}\n{frame}\n\n")
+    
+    return frame, [stamp]
