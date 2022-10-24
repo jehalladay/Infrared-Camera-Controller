@@ -112,7 +112,7 @@ if __name__ == '__main__':
         width = int(sys.argv[2])
     if len(sys.argv) > 3:
         height = int(sys.argv[3])
-    if len(sys.argv > 4):
+    if len(sys.argv) > 4:
         verbose = bool(int(sys.argv[4]))
 
     main(
