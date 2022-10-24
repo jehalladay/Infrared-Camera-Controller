@@ -75,6 +75,7 @@ def main(
             print(f"Writing at {time.monotonic()}")
         
         try:
+            print("trying to scan and flip")
             frame, metadata = scan_and_flip(
                 mlx, 
                 width = width, 
@@ -84,12 +85,14 @@ def main(
                 verbose = verbose
             )
 
+            print("trying to append to csv")
             append_csv(file_name, frame, metadata = metadata)
             duration -= frequency
             time.sleep(frequency)
+            print('sleeping')
 
         except ValueError:
-            duration -= 0.1
+            duration -= 0.2
             time.sleep(0.1)
 
 if __name__ == '__main__':
