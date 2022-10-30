@@ -1,9 +1,10 @@
-import json, sys, time
+import json, os, sys, time
+import pandas as pd
+import numpy as np
 
-import adafruit_mlx90640
-import board
-import busio
-from driver.utils.constants import TIME_FORMAT
+from cv2 import (
+    VideoCapture
+)
 
 from utils.csv_handling import (
     append_csv,
@@ -16,7 +17,7 @@ from utils.types import (
 )
 
 from utils.constants import (
-    MLX_CONFIG_JSON,
+    MP_CONFIG_JSON,
     SIZE,
     STORAGE,
     RECORDING,
@@ -29,12 +30,10 @@ from utils.constants import (
     FREQUENCY,
     DURATION,
     DATE_FORMAT,
+    TIME_FORMAT,
     STALL_TIME
 )
 
-from MLX.scan_and_flip import (
-    scan_and_flip
-)
 
 def main(
     file_name: str  = './readingsCSV/test.csv', 
@@ -84,7 +83,7 @@ if __name__ == '__main__':
     timestamp = time.strftime(TIME_FORMAT)
 
     # load config from ./config/mlx.json
-    config: dict = json.load(open(MLX_CONFIG_JSON, 'r'))
+    config: dict = json.load(open(MP_CONFIG_JSON, 'r'))
     
     file_path = config[STORAGE][PATH]
     file_name = file_path + config[STORAGE][LOCATION]
@@ -114,10 +113,6 @@ if __name__ == '__main__':
         verbose = bool(int(sys.argv[4]))
 
     print(f"Running MLX Infrared Camera for {duration} seconds at {1/frequency} Hz")
-
-    if verbose:
-        print("MLX addr detected on I2C")
-        print([hex(i) for i in mlx.serial_number])
 
     main(
         file_name = file_name, 

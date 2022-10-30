@@ -1,13 +1,13 @@
 {
     "size": {
-        "width": 32,
-        "height": 24,
-        "channels": 1
+        "width": 640,
+        "height": 480,
+        "channels": 3
     },
     "storage": {
         "precision": 2,
-        "location": "MP_{date}.csv",
-        "path": "./readingsCSV/"
+        "location": "MP_{time}.png",
+        "path": "./data/MP_{date}/"
     },
     "recording": {
         "frequency": 0.1,
