@@ -79,8 +79,11 @@ def main(
             time.sleep(frequency)
 
         except ValueError:
-            duration -= STALL_TIME * 2 
             time.sleep(STALL_TIME)
+
+            # double the stall time because time passed in the try block
+            duration -= STALL_TIME * 2 
+
 
 if __name__ == '__main__':
     i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
