@@ -5,7 +5,8 @@ import cv2
 import glob
 
 #These values Are the calibration values required to fix camera distortion
-#Code used to derive will not be given as part of this project (Sorry). 
+#Code used to derive will not be given as part of this project (Sorry). But treat the image as a matrix, and the undistortion for a pixel
+#is based on the position of that pixel in the matrix
 dimensions = (640, 480)
 K=np.array([[226.78774808876156, 0.0, 323.7695330830304], [0.0, 226.72792530533906, 218.94459567242427], [0.0, 0.0, 1.0]])
 D=np.array([[-0.001113892387730428], [0.007489372244509825], [-0.019657948056696923], [0.0050755188856704755]])
