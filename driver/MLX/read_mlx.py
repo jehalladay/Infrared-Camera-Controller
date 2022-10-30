@@ -23,7 +23,7 @@ from utils.csv_handling import (
     append_csv
 )
 
-def scan_and_flip(
+def read_mlx(
     mlx, 
     width: int = 32, 
     height: int = 24,

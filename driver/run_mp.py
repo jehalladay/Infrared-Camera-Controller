@@ -32,8 +32,8 @@ from utils.constants import (
     STALL_TIME
 )
 
-from MLX.read_mlx import (
-    read_mlx
+from MLX.scan_and_flip import (
+    scan_and_flip
 )
 
 def main(
@@ -65,14 +65,6 @@ def main(
             print(f"Writing at {time.monotonic()}")
         
         try:
-            frame, metadata = read_mlx(
-                mlx, 
-                width = width, 
-                height = height, 
-                channels = channels,
-                precision = precision,
-                verbose = verbose
-            )
 
             append_csv(file_name, frame, metadata = metadata)
             duration -= frequency
@@ -86,9 +78,6 @@ def main(
 
 
 if __name__ == '__main__':
-    i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
-    mlx = adafruit_mlx90640.MLX90640(i2c)
-    mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_32_HZ
 
     # get todays date
     date = time.strftime(DATE_FORMAT)
