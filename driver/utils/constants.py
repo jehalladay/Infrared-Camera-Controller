@@ -1,7 +1,7 @@
 # config keys
 
 MLX_CONFIG_JSON = './config/mlx.json'
-MLX_CONFIG_JSON = './config/mp.json'
+MP_CONFIG_JSON = './config/mp.json'
 
 # Top level keys
 SIZE = 'size'
