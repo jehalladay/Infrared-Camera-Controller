@@ -3,7 +3,6 @@ import json, sys, time
 import adafruit_mlx90640
 import board
 import busio
-from driver.utils.constants import TIME_FORMAT
 
 from utils.csv_handling import (
     append_csv,
@@ -28,6 +27,7 @@ from utils.constants import (
     PATH,
     FREQUENCY,
     DURATION,
+    TIME_FORMAT,
     DATE_FORMAT,
     STALL_TIME
 )
