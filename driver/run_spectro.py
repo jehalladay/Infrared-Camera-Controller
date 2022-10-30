@@ -1,6 +1,7 @@
-from board import I2C
 import sys
-from time import (sleep, strftime)
+import time
+import board
+
 from adafruit_as726x import AS726x_I2C
 from AS.readSpectro import(readSpectro)
 from utils.csv_handling import (
@@ -9,16 +10,18 @@ from utils.csv_handling import (
 )
 
 spectro_address = 0x49
+spectro_GPIO = 21
 
 def main(file_name: str = "./readingsCSV/spectro_test.csv", verbose: bool = False):
+    frame = ['violet','blue', 'green', 'yellow', 'orange', 'red']
+    create_csv(file_name, 
+        columns = frame,
+        verbose = verbose 
+    )
     while(True):
+        frame = readSpectro(spectro, True)
+        append_csv(file_name=file_name, data=frame)
         time.sleep(3) #This should be dynamic from JSON
-        frame = readSpectro(spectro, verbose)
-        create_csv(
-            file_name, 
-            columns = frame,
-            verbose = verbose 
-        )
 
 if __name__ == '__main__':
     print(f"AS726x addr is {spectro_address}")
@@ -29,7 +32,6 @@ if __name__ == '__main__':
                                              #Mode 0 is for Violet, Blue, Green and Yello only
 
     date = time.strftime("%Y_%m_%d") # get todays date
-
     file_name = f'./readingsCSV/spectrometer{date}.csv'
     verbose = False
 
@@ -42,3 +44,4 @@ if __name__ == '__main__':
         file_name = file_name,  
         verbose = verbose
     )
+
