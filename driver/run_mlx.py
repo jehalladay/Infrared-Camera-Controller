@@ -28,7 +28,8 @@ from utils.constants import (
     PATH,
     FREQUENCY,
     DURATION,
-    DATE_FORMAT
+    DATE_FORMAT,
+    STALL_TIME
 )
 
 from MLX.scan_and_flip import (
@@ -78,16 +79,13 @@ def main(
             time.sleep(frequency)
 
         except ValueError:
-            duration -= 0.2
-            time.sleep(0.1)
+            duration -= STALL_TIME * 2 
+            time.sleep(STALL_TIME)
 
 if __name__ == '__main__':
     i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
     mlx = adafruit_mlx90640.MLX90640(i2c)
     mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_32_HZ
-
-    print("MLX addr detected on I2C")
-    print([hex(i) for i in mlx.serial_number])
 
     # get todays date
     date = time.strftime(DATE_FORMAT)
@@ -99,11 +97,13 @@ if __name__ == '__main__':
     file_name = file_path + config[STORAGE][LOCATION].format(date=date)
 
     verbose = False
-    width = int(config[SIZE][WIDTH])
-    height = int(config[SIZE][HEIGHT])
-    channels = int(config[SIZE][CHANNELS])
+    
+    width     = int(config[SIZE][WIDTH])
+    height    = int(config[SIZE][HEIGHT])
+    channels  = int(config[SIZE][CHANNELS])
     precision = int(config[STORAGE][PRECISION])
-    duration = float(config[RECORDING][DURATION])
+
+    duration  = float(config[RECORDING][DURATION])
     frequency = float(config[RECORDING][FREQUENCY])
 
     if len(sys.argv) > 1:
@@ -115,6 +115,12 @@ if __name__ == '__main__':
     if len(sys.argv) > 4:
         verbose = bool(int(sys.argv[4]))
 
+    print(f"Running MLX Infrared Camera for {duration} seconds at {1/frequency} Hz")
+
+    if verbose:
+        print("MLX addr detected on I2C")
+        print([hex(i) for i in mlx.serial_number])
+
     main(
         file_name = file_name, 
         width = width, 
@@ -125,3 +131,5 @@ if __name__ == '__main__':
         frequency = frequency,
         verbose = verbose
     )
+
+    print("MLX: Done")
