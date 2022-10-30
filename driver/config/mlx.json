@@ -7,7 +7,7 @@
     "storage": {
         "precision": 2,
         "location": "infrared_{date}.csv",
-        "path": "./readingsCSV/"
+        "path": "./data/csv/"
     },
     "recording": {
         "frequency": 0.1,
