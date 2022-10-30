@@ -2,104 +2,84 @@ import json, os, sys, time
 import pandas as pd
 import numpy as np
 
+from pathlib import (
+    Path
+)
+
 from cv2 import (
-    VideoCapture
+    imwrite
 )
 
-from utils.csv_handling import (
-    append_csv,
-    create_csv
-)
-
-from utils.types import (
-    Frame,
-    Metadata
+from MP.cam import (
+    open_camera,
+    capture_frame
 )
 
 from utils.constants import (
     MP_CONFIG_JSON,
-    SIZE,
     STORAGE,
     RECORDING,
-    WIDTH,
-    HEIGHT,
-    CHANNELS,
-    PRECISION,
     LOCATION,
     PATH,
     FREQUENCY,
     DURATION,
     DATE_FORMAT,
-    TIME_FORMAT,
-    STALL_TIME
+    TIME_FORMAT
 )
 
 
 def main(
-    file_name: str  = './readingsCSV/test.csv', 
-    width    : int  = 32, 
-    height   : int  = 24,
-    channels : int  = 1,
-    precision: int  = 2,
+    file_name: str  = './data/test_{time}.png', 
     duration : int  = 120,
     frequency: int  = 3,
     verbose  : bool = False
 ) -> None:
     '''
-        This function will control the loop for operating the infrared camera
+        This function will control the loop for operating the MP camera
+        The camera simply sends us a frame at the desired frequency
+            and the frame is saved to an image file with a unique file name
     '''
 
-    columns: list = ['timestamp'] + [f'pixel_{i}' for i in range(width * height * channels)]
-    frame: Frame = []
-    metadata: Metadata = []
+    frame = []
 
-    create_csv(
-        file_name, 
-        columns = columns,
-        verbose = verbose 
-    )
+    cap = open_camera(cam_num = 0)
 
     while duration > 0:
         if verbose:
             print(f"Writing at {time.monotonic()}")
         
-        try:
+        frame = capture_frame(cap)
+        
+        imwrite(
+            # if file_name contains the substring {time}, it will be replaced with the current time
+            #   this will allow for subsequent frames to be saved with unique and ordered names
+            file_name.format(time = time.strftime(TIME_FORMAT)), 
+            frame
+        )
 
-            append_csv(file_name, frame, metadata = metadata)
-            duration -= frequency
-            time.sleep(frequency)
-
-        except ValueError:
-            time.sleep(STALL_TIME)
-
-            # double the stall time because time passed in the try block
-            duration -= STALL_TIME * 2 
+        duration -= frequency
+        time.sleep(frequency)
 
 
 if __name__ == '__main__':
 
     # get todays date
     date = time.strftime(DATE_FORMAT)
-    timestamp = time.strftime(TIME_FORMAT)
 
-    # load config from ./config/mlx.json
+    # load config from ./config/mp.json
     config: dict = json.load(open(MP_CONFIG_JSON, 'r'))
     
-    file_path = config[STORAGE][PATH]
+    file_path = config[STORAGE][PATH].format(
+        date = date
+    )
+
     file_name = file_path + config[STORAGE][LOCATION]
 
-    file_name = file_name.format(
-        date = date, 
-        time = timestamp
-    )
+    if not Path(file_path).exists():
+        os.makedirs(file_path)
 
     verbose = False
     
-    width     = int(config[SIZE][WIDTH])
-    height    = int(config[SIZE][HEIGHT])
-    channels  = int(config[SIZE][CHANNELS])
-    precision = int(config[STORAGE][PRECISION])
-
     duration  = float(config[RECORDING][DURATION])
     frequency = float(config[RECORDING][FREQUENCY])
 
@@ -112,17 +92,13 @@ if __name__ == '__main__':
     if len(sys.argv) > 4:
         verbose = bool(int(sys.argv[4]))
 
-    print(f"Running MLX Infrared Camera for {duration} seconds at {1/frequency} Hz")
+    print(f"Running MP Fisheye Camera for {duration} seconds at {1/frequency} Hz")
 
     main(
-        file_name = file_name, 
-        width = width, 
-        height = height,
-        channels = channels,
-        precision = precision,
+        file_name = file_name,
         duration = duration,
         frequency = frequency,
         verbose = verbose
     )
 
-    print("MLX: Done")
+    print("MP: Done")
