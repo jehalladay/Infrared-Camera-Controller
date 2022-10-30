@@ -28,4 +28,5 @@ DURATION = 'duration'
 # Misc constants
 
 DATE_FORMAT = '%Y_%m_%d'
+TIME_FORMAT = '%H_%M_%S'
 STALL_TIME = 0.01 # seconds until we try to get a new frame after failing to get one
