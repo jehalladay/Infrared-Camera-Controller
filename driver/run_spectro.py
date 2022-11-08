@@ -60,7 +60,7 @@ def main(
 
         if verbose:
             print(f"Reading at {time.monotonic()}")
-
+        #GPIO HERE
         frame = readSpectro(
             spectro, 
             True, 

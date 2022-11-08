@@ -51,7 +51,7 @@ def main(
 
         if type(frame) != type(None) and frame.size > 0 :
             message += f" Frame size: {frame.size}"
-
+            
             imwrite(
                 # if file_name contains the substring {time}, it will be replaced with the current time
                 #   this will allow for subsequent frames to be saved with unique and ordered names
