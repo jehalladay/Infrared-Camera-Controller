@@ -42,7 +42,6 @@ def main(
 
     frame = []
 
-    cap = open_camera(cam_num = 0)
 
     while duration > 0:
 
@@ -50,7 +49,7 @@ def main(
         if verbose:
             print(f"Writing at {time.monotonic()}")
         
-        frame = capture_frame(cap)
+        frame = capture_frame(open_camera(cam_num = 0))
 
         if type(frame) != type(None) and frame.size > 0 :
             message += f" Frame size: {frame.size}"
