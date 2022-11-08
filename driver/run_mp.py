@@ -45,20 +45,27 @@ def main(
     cap = open_camera(cam_num = 0)
 
     while duration > 0:
+
+        message = f"Writing at {time.monotonic()}:"
         if verbose:
             print(f"Writing at {time.monotonic()}")
         
         frame = capture_frame(cap)
 
         if type(frame) != type(None) and frame.size > 0 :
+            message += f" Frame size: {frame.size}"
+
             imwrite(
                 # if file_name contains the substring {time}, it will be replaced with the current time
                 #   this will allow for subsequent frames to be saved with unique and ordered names
                 file_name.format(time = time.strftime(TIME_FORMAT)), 
                 frame
             )
+        else:
+            message += " No frame captured"
 
         duration -= frequency
+        print(message)
         time.sleep(frequency)
 
 
