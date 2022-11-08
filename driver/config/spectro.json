@@ -1,0 +1,27 @@
+{
+    "color_channels": {
+        "raw_violet": true,
+        "raw_blue": true,
+        "raw_green": true,
+        "raw_yellow": true,
+        "raw_orange": true,
+        "raw_red": true,
+        "violet": true,
+        "blue": true,
+        "green": true,
+        "yellow": true,
+        "orange": true,
+        "red": true
+    },
+    "storage": {
+        "precision": 2,
+        "location": "Spectrometer_{date}.csv",
+        "path": "./data/csv/"
+    },
+    "recording": {
+        "frequency": 0.1,
+        "duration": 10
+    },
+    "mode": 2,
+    "triggers": {}
+}
