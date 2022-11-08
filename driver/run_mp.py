@@ -46,8 +46,6 @@ def main(
     while duration > 0:
 
         message = f"Writing at {time.monotonic()}:"
-        if verbose:
-            print(f"Writing at {time.monotonic()}")
         
         frame = capture_frame(open_camera(cam_num = 0))
 
@@ -64,7 +62,10 @@ def main(
             message += " No frame captured"
 
         duration -= frequency
-        print(message)
+
+        if verbose:
+            print(message)
+
         time.sleep(frequency)
 
 
