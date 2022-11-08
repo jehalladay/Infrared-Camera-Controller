@@ -11,7 +11,7 @@
     },
     "recording": {
         "frequency": 0.1,
-        "duration": 60
+        "duration": 10
     },
     "triggers": {}
 }
