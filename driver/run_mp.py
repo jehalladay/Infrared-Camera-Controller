@@ -50,7 +50,7 @@ def main(
         
         frame = capture_frame(cap)
 
-        if frame != None and frame.size > 0 :
+        if type(frame) != type(None) and frame.size > 0 :
             imwrite(
                 # if file_name contains the substring {time}, it will be replaced with the current time
                 #   this will allow for subsequent frames to be saved with unique and ordered names
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     if not Path(file_path).exists():
         os.makedirs(file_path)
 
-    verbose = False
+    verbosity = False
     
     duration  = float(config[RECORDING][DURATION])
     frequency = float(config[RECORDING][FREQUENCY])
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 3:
         height = int(sys.argv[3])
     if len(sys.argv) > 4:
-        verbose = bool(int(sys.argv[4]))
+        verbosity = bool(int(sys.argv[4]))
 
     print(f"Running MP Fisheye Camera for {duration} seconds at {1/frequency} Hz")
 
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         file_name = file_name,
         duration = duration,
         frequency = frequency,
-        verbose = verbose
+        verbose = verbosity
     )
 
     print("MP: Done")
