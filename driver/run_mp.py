@@ -50,7 +50,7 @@ def main(
         
         frame = capture_frame(cap)
 
-        if frame.size > 0:
+        if frame != None and frame.size > 0 :
             imwrite(
                 # if file_name contains the substring {time}, it will be replaced with the current time
                 #   this will allow for subsequent frames to be saved with unique and ordered names
