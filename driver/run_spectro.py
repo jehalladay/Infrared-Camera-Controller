@@ -1,47 +1,142 @@
-import sys
-import time
-import board
+import board, json, sys, time
 
-from adafruit_as726x import AS726x_I2C
-from AS.readSpectro import(readSpectro)
+from adafruit_as726x import (
+    AS726x_I2C
+)
+
+from AS.readSpectro import (
+    readSpectro
+)
+
 from utils.csv_handling import (
     append_csv,
     create_csv
 )
 
-spectro_address = 0x49
-spectro_GPIO = 21
+from utils.constants import (
+    COLOR_CHANNELS,
+    DATE_FORMAT,
+    TIME_FORMAT,
+    DURATION,
+    FREQUENCY,
+    LOCATION,
+    MODE,
+    PATH,
+    PRECISION,
+    RECORDING,
+    STORAGE,
+    SPECTRO_CONFIG_JSON,
+    SPECTRO_ADDRESS,
+    SPECTRO_GPIO
+)
 
-def main(file_name: str = "./readingsCSV/spectro_test.csv", verbose: bool = False):
-    frame = ['violet','blue', 'green', 'yellow', 'orange', 'red']
-    create_csv(file_name, 
-        columns = frame,
+
+def main(
+    spectro,
+    file_name: str = "./readingsCSV/spectro_test.csv", 
+    precision: int  = 2,
+    duration : int  = 20,
+    frequency: int  = .1,
+    columns  : list = ['violet', 'blue', 'green', 'yellow', 'orange', 'red'],
+    verbose: bool = False
+) -> None:
+    '''
+        This function will control the loop for operating the spectrometer
+    '''
+
+    frame      : list = []
+    csv_columns: list = ['timestamp'] + columns
+
+    create_csv(
+        file_name, 
+        columns = csv_columns,
         verbose = verbose 
     )
-    while(True):
-        frame = readSpectro(spectro, True)
-        append_csv(file_name=file_name, data=frame)
-        time.sleep(3) #This should be dynamic from JSON
+
+    # while(True):
+    while duration > 0:
+        stamp = time.monotonic()
+
+
+        if verbose:
+            print(f"Reading at {time.monotonic()}")
+
+        frame = readSpectro(
+            spectro, 
+            True, 
+            columns = columns
+        )
+        
+        append_csv(
+            file_name = file_name, 
+            data      = frame, 
+            metadata  = [stamp]
+        )
+
+        duration -= frequency
+        time.sleep(frequency)
+
 
 if __name__ == '__main__':
-    print(f"AS726x addr is {spectro_address}")
-    i2c = board.I2C() #activates the RBPi default SCL and SDA pins
-    spectro = AS726x_I2C(i2c, 0x49) #Spectrometer address at 0x49
-    spectro.conversion_mode = spectro.MODE_2 #Continuously grab values of all colors
-                                             #Mode 1 is for Green, yellow orange and red only
-                                             #Mode 0 is for Violet, Blue, Green and Yello only
+    # activate the RBPi default SCL and SDA pins
+    i2c = board.I2C()
 
-    date = time.strftime("%Y_%m_%d") # get todays date
-    file_name = f'./readingsCSV/spectrometer{date}.csv'
+    # Spectrometer address at 0x49, set inside utils/constants.py
+    spectro = AS726x_I2C(i2c, SPECTRO_ADDRESS) 
+
+    # get todays date
+    date = time.strftime(DATE_FORMAT)
+    timestamp = time.strftime(TIME_FORMAT)
+
+    # load config from ./config/spectro.json
+    config: dict = json.load(open(SPECTRO_CONFIG_JSON, 'r'))
+
+    file_path = config[STORAGE][PATH]
+    file_name = file_path + config[STORAGE][LOCATION]
+    
+    precision = int(config[STORAGE][PRECISION])
+    duration  = float(config[RECORDING][DURATION])
+    frequency = float(config[RECORDING][FREQUENCY])
+
+    channels: dict = config[COLOR_CHANNELS]
+
+    columns = []
+
+    for key in channels.keys():
+        if channels[key]:
+            columns.append(key)
+
     verbose = False
+
+    mode: int = int(config[MODE])
+
+    # Mode 1 is for Green, yellow orange and red only
+    # Mode 0 is for Violet, Blue, Green and Yello only
+    # Mode 2 continuously grab values of all colors
+    if mode == 0:
+        spectro.conversion_mode = spectro.MODE_0
+    elif mode == 1:
+        spectro.conversion_mode = spectro.MODE_1
+    elif mode == 2:
+        spectro.conversion_mode = spectro.MODE_2
+
 
     if len(sys.argv) > 1:
         file_name = sys.argv[1] 
     if len(sys.argv) > 2:
         verbose = bool(int(sys.argv[2]))
 
+    print(f"Running Spectrometer for {duration} seconds at {1/frequency} Hz")
+
+    if verbose:
+        print(f"AS726x addr is {SPECTRO_ADDRESS} and GPIO is {SPECTRO_GPIO}")
+
     main(
-        file_name = file_name,  
-        verbose = verbose
+        spectro,
+        file_name = file_name,
+        columns   = columns,
+        precision = precision,
+        verbose   = verbose
     )
 
+    print("Spectrometer: Done")

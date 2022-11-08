@@ -1,8 +1,6 @@
-import json, sys, time
+import board, busio, json, sys, time
 
 import adafruit_mlx90640
-import board
-import busio
 
 from utils.csv_handling import (
     append_csv,

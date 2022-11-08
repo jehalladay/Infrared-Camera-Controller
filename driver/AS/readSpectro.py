@@ -1,11 +1,21 @@
-def readSpectro(spectro, verbose: bool = False):
-    #               0                   1                   2                   3                   4                   5           
-    frame = [spectro.violet, spectro.blue, spectro.green, spectro.yellow, spectro.orange, spectro.red]
+def readSpectro(
+    spectro, 
+    verbose: bool = False, 
+    columns: list = ['violet', 'blue', 'green', 'yellow', 'orange', 'red']
+) -> list:
+    '''
+        This function will return an array with the desired readings from the spectrometer
+    '''
+
+    frame = []
+    message: str = "Frame: "
+
+    for col in columns:
+        if hasattr(spectro, col):
+            frame.append(getattr(spectro, col))
+            message += f"{col}: {getattr(spectro, col)}; "
+    
     if verbose:
-        print("Violet: " + str((frame[0])))
-        print("Blue  : " + str((frame[1])))
-        print("Green : " + str((frame[2])))
-        print("Yellow: " + str((frame[3])))
-        print("Orange: " + str((frame[4])))
-        print("Red   : " + str((frame[5])))
+        print(message)
+
     return frame

@@ -2,12 +2,15 @@
 
 MLX_CONFIG_JSON = './config/mlx.json'
 MP_CONFIG_JSON = './config/mp.json'
+SPECTRO_CONFIG_JSON = './config/spectro.json'
 
 # Top level keys
 SIZE = 'size'
 STORAGE = 'storage'
 RECORDING = 'recording'
 TRIGGERS = 'triggers'
+COLOR_CHANNELS = 'color_channels'
+MODE = 'mode'
 
 # Size keys
 WIDTH = 'width'
@@ -27,7 +30,11 @@ DURATION = 'duration'
 
 
 # Misc constants
-
 DATE_FORMAT = '%Y_%m_%d'
 TIME_FORMAT = '%H_%M_%S'
 STALL_TIME = 0.01 # seconds until we try to get a new frame after failing to get one
+
+# Spectrometer constants
+SPECTRO_ADDRESS = 0x49
+SPECTRO_GPIO = 21
+
