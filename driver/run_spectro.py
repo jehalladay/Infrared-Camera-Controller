@@ -94,6 +94,11 @@ if __name__ == '__main__':
     file_path = config[STORAGE][PATH]
     file_name = file_path + config[STORAGE][LOCATION]
     
+    file_name = file_name.format(
+        date = date, 
+        time = timestamp
+    )
+
     precision = int(config[STORAGE][PRECISION])
     duration  = float(config[RECORDING][DURATION])
     frequency = float(config[RECORDING][FREQUENCY])
