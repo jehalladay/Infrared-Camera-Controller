@@ -49,13 +49,14 @@ def main(
             print(f"Writing at {time.monotonic()}")
         
         frame = capture_frame(cap)
-        
-        imwrite(
-            # if file_name contains the substring {time}, it will be replaced with the current time
-            #   this will allow for subsequent frames to be saved with unique and ordered names
-            file_name.format(time = time.strftime(TIME_FORMAT)), 
-            frame
-        )
+
+        if frame.size > 0:
+            imwrite(
+                # if file_name contains the substring {time}, it will be replaced with the current time
+                #   this will allow for subsequent frames to be saved with unique and ordered names
+                file_name.format(time = time.strftime(TIME_FORMAT)), 
+                frame
+            )
 
         duration -= frequency
         time.sleep(frequency)
