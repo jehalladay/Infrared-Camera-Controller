@@ -111,7 +111,7 @@ def main(
 
             imwrite(
                 file_path + "mlx.png",
-                np.asarray(mlx_frame)
+                np.asarray(mlx_frame).reshape((24, 32))
             )
 
             flag = False
