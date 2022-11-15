@@ -15,10 +15,10 @@ from utils.types import (
 
 from utils.constants import (
     MLX_CONFIG_JSON,
-    TIME_FORMAT,
     SIZE,
     STORAGE,
     RECORDING,
+    TIME_FORMAT,
     WIDTH,
     HEIGHT,
     CHANNELS,
@@ -59,30 +59,28 @@ def main(
         verbose = verbose 
     )
 
-    while duration > 0:
-        if verbose:
-            print(f"Writing at {time.monotonic()}")
-        
-        try:
-            #GPIO set here
-            frame, metadata = read_mlx(
-                mlx, 
-                width = width, 
-                height = height, 
-                channels = channels,
-                precision = precision,
-                verbose = verbose
-            )
+    if verbose:
+        print(f"Writing at {time.monotonic()}")
+    
+    try:
+        #GPIO set here
+        frame, metadata = read_mlx(
+            mlx, 
+            width = width, 
+            height = height, 
+            channels = channels,
+            precision = precision,
+            verbose = verbose
+        )
 
-            append_csv(file_name, frame, metadata = metadata)
-            duration -= frequency
-            time.sleep(frequency)
+        append_csv(file_name, frame, metadata = metadata)
+        duration -= frequency
+        # time.sleep(frequency)
 
-        except ValueError:
-            time.sleep(STALL_TIME)
-
-            # double the stall time because time passed in the try block
-            duration -= STALL_TIME * 2 
+    except ValueError:
+        time.sleep(STALL_TIME)
+        # double the stall time because time passed in the try block
+        duration -= STALL_TIME * 2 
 
 
 if __name__ == '__main__':
