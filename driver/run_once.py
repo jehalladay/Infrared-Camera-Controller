@@ -171,6 +171,8 @@ if __name__ == '__main__':
     # get todays date
     date = time.strftime(DATE_FORMAT)
     timestamp = time.strftime(TIME_FORMAT)
+    
+    verbose = False
 
     if len(sys.argv) > 1:
         verbose = bool(int(sys.argv[2]))
@@ -185,7 +187,6 @@ if __name__ == '__main__':
         time = timestamp
     )
 
-    verbose = False
     
     run_MP  = bool(int(config[MP][RUN]))
     run_MLX = bool(int(config[MLX][RUN]))

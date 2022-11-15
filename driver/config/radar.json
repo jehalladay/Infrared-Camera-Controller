@@ -1,0 +1,17 @@
+{
+    "color_channels": {
+        "raw_violet": false,
+        "raw_blue": false,
+        "raw_green": false,
+        "raw_yellow": false,
+        "raw_orange": false,
+        "raw_red": false,
+        "violet": true,
+        "blue": true,
+        "green": true,
+        "yellow": true,
+        "orange": true,
+        "red": true,
+        "temperature": true
+    }
+}

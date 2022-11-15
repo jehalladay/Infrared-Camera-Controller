@@ -4,6 +4,7 @@ MLX_CONFIG_JSON = './config/mlx.json'
 MP_CONFIG_JSON = './config/mp.json'
 SPECTRO_CONFIG_JSON = './config/spectro.json'
 ONCE_CONFIG_JSON = './config/once.json'
+RADAR_CONFIG_JSON = './config/radar.json'
 
 # Top level keys
 SIZE = 'size'
