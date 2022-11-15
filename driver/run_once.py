@@ -192,6 +192,16 @@ if __name__ == '__main__':
 
     mode: int = int(config[SP][MODE])
 
+    # Mode 1 is for Green, yellow orange and red only
+    # Mode 0 is for Violet, Blue, Green and Yello only
+    # Mode 2 continuously grab values of all colors
+    if mode == 0:
+        spectro.conversion_mode = spectro.MODE_0
+    elif mode == 1:
+        spectro.conversion_mode = spectro.MODE_1
+    elif mode == 2:
+        spectro.conversion_mode = spectro.MODE_2
+
 
     message = "Running "
     if run_MLX:
@@ -216,7 +226,6 @@ if __name__ == '__main__':
         run_mlx = run_MLX,
         run_sp = run_SP,
         columns = columns,
-        mode = mode,
         verbose = verbose
     )
 
