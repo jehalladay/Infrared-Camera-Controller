@@ -31,6 +31,7 @@
             "red": true,
             "temperature": true
         },
+        "mode": 2,
         "storage": {
             "precision": 2,
             "location": "Spectrometer_{date}.csv",
