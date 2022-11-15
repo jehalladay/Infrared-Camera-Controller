@@ -101,7 +101,7 @@ def main(
 
             except:
                 continue
-            mlx_columns: list = ['timestamp'] + [f'pixel_{i}' for i in range(width * height * channels)]
+            mlx_columns: list = ['timestamp'] + [f'pixel_{i}' for i in range(32 * 24)]
 
             create_csv(
                 file_path + "infrared.csv", 
