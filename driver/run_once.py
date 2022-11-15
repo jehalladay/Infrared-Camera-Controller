@@ -91,9 +91,9 @@ def main(
                 #GPIO set here
                 mlx_frame, metadata = read_mlx(
                     mlx, 
-                    width = width, 
-                    height = height, 
-                    channels = channels,
+                    width = 32, 
+                    height = 24, 
+                    channels = 1,
                     verbose = verbose
                 )
 
@@ -211,7 +211,7 @@ if __name__ == '__main__':
     main(
         mlx,
         spectro,
-        file_path = file_name, 
+        file_path = file_path, 
         run_mp = run_MP,
         run_mlx = run_MLX,
         run_sp = run_SP,
