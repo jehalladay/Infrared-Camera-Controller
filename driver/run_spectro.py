@@ -70,7 +70,7 @@ def main(
         append_csv(
             file_name = file_name, 
             data      = frame, 
-            metadata  = [stamp]
+            metadata  = [time.strftime(TIME_FORMAT)]
         )
 
         duration -= frequency

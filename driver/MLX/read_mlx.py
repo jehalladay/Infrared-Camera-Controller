@@ -18,6 +18,10 @@ from utils.types import (
     Picture
 )
 
+from utils.constants import (
+    TIME_FORMAT
+)
+
 from utils.csv_handling import (
     create_csv,
     append_csv
@@ -36,7 +40,7 @@ def read_mlx(
         The data will be appended to the csv file
     '''
     
-    stamp = time.monotonic()
+    stamp = time.strftime(TIME_FORMAT)
     frame = [0] * width * height * channels
 
     mlx.getFrame(frame)

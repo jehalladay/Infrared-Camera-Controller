@@ -3,6 +3,7 @@
 MLX_CONFIG_JSON = './config/mlx.json'
 MP_CONFIG_JSON = './config/mp.json'
 SPECTRO_CONFIG_JSON = './config/spectro.json'
+ONCE_CONFIG_JSON = './config/once.json'
 
 # Top level keys
 SIZE = 'size'
@@ -11,6 +12,9 @@ RECORDING = 'recording'
 TRIGGERS = 'triggers'
 COLOR_CHANNELS = 'color_channels'
 MODE = 'mode'
+MP = "MP"
+MLX = "MLX"
+SP = "SP"
 
 # Size keys
 WIDTH = 'width'
