@@ -15,6 +15,7 @@ MODE = 'mode'
 MP = "MP"
 MLX = "MLX"
 SP = "SP"
+RUN = "run"
 
 # Size keys
 WIDTH = 'width'

@@ -11,7 +11,8 @@
         "green": true,
         "yellow": true,
         "orange": true,
-        "red": true
+        "red": true,
+        "temperature": true
     },
     "storage": {
         "precision": 2,

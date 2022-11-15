@@ -1,0 +1,45 @@
+{
+    "MP": {
+        "size": {
+            "width": 640,
+            "height": 480,
+            "channels": 3
+        },
+        "run": true
+    },
+    "MLX": {
+        "size": {
+            "width": 32,
+            "height": 24,
+            "channels": 1
+        },
+        "run": true
+    },
+    "SP": {
+        "color_channels": {
+            "raw_violet": true,
+            "raw_blue": true,
+            "raw_green": true,
+            "raw_yellow": true,
+            "raw_orange": true,
+            "raw_red": true,
+            "violet": true,
+            "blue": true,
+            "green": true,
+            "yellow": true,
+            "orange": true,
+            "red": true,
+            "temperature": true
+        },
+        "storage": {
+            "precision": 2,
+            "location": "Spectrometer_{date}.csv",
+            "path": "./data/csv/"
+        },
+        "run": true
+    },
+    "storage": {
+        "path": "./data/Once_{date}/{time}/"
+    },
+    "triggers": {}
+}
