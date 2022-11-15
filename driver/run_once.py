@@ -1,5 +1,7 @@
 import board, busio, json, sys, time
 
+import numpy as np
+
 import adafruit_mlx90640
 
 from adafruit_as726x import (
@@ -109,7 +111,7 @@ def main(
 
             imwrite(
                 file_path + "mlx.png",
-                mlx_frame
+                np.ndarray(mlx_frame)
             )
 
             flag = False
