@@ -104,10 +104,10 @@ def main(
             except:
                 continue
 
-            print(type(mlx_frame))
+            # print(type(mlx_frame))
             # print(mlx_frame.size)
             # print(mlx_frame.shape)
-            print(mlx_frame)
+            # print(mlx_frame)
 
             imwrite(
                 file_path + "mlx.png",
