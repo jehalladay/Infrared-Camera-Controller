@@ -99,21 +99,26 @@ def main(
                     verbose = verbose
                 )
 
-                # append_csv(file_name, frame, metadata = metadata)
-            
             except:
                 continue
+            mlx_columns: list = ['timestamp'] + [f'pixel_{i}' for i in range(width * height * channels)]
 
+            create_csv(
+                file_path + "infrared.csv", 
+                columns = mlx_columns,
+                verbose = verbose 
+            )
             # print(type(mlx_frame))
             # print(mlx_frame.size)
             # print(mlx_frame.shape)
             # print(mlx_frame)
 
-            imwrite(
-                file_path + "mlx.png",
-                np.asarray(mlx_frame).reshape((24, 32))
-            )
+            # imwrite(
+            #     file_path + "mlx.png",
+            #     np.asarray(mlx_frame).reshape((24, 32))
+            # )
 
+            append_csv(file_path + 'infrared.csv', mlx_frame, metadata = metadata)
             flag = False
 
     if run_mp:
