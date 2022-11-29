@@ -76,7 +76,7 @@ def convert_csv_to_png(
         img_name = f'frame_{i}_{timestamp}'
         print(f'Converting row {i} to {output_dir}/{img_name}.png; min: {min}, max: {max}, mean: {mean}, std: {std}')
         #below for thermal
-        fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
+        fig.savefig(f'{output_dir}/{img_name}.png', facecolor='#FCFCFC', bbox_inches='tight')
         plt.close(fig)
         
 

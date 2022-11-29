@@ -12,6 +12,7 @@ import matplotlib.cbook as cbook
 from utils.constants import (
     COMPOSE_CONFIG_JSON,
     DATE_FORMAT,
+    DPI,
     PATH,
     SCALING_FACTOR,
     STORAGE,
@@ -26,6 +27,7 @@ def convert_csv_to_png(
     width: int = 32, 
     height: int = 24,
     scaling_factor: int = 3,
+    dpi: int = 35
 ):
     '''
         This function will convert the csv file to a series of png images
@@ -78,7 +80,13 @@ def convert_csv_to_png(
         plt.gca().set_axis_off()
         
         #below for thermal
-        fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
+        fig.savefig(
+            f'{output_dir}/{img_name}.png', 
+            dpi = dpi, 
+            facecolor = '#FCFCFC', 
+            bbox_inches = 'tight'
+        )
+
         plt.close(fig)
 
 
@@ -92,6 +100,7 @@ if __name__ == "__main__":
     config: dict = json.load(open(COMPOSE_CONFIG_JSON, 'r'))
     output_dir: str = config[STORAGE][PATH].format(conversion_date=date)
     scaling_factor: int = config[SCALING_FACTOR]
+    dpi: int = config[DPI]
 
     # allow parameters to be passed in to override the default configuration
     if len(sys.argv) > 2:
@@ -99,6 +108,9 @@ if __name__ == "__main__":
     
     if len(sys.argv) > 3:
         scaling_factor = float(sys.argv[3])
+    
+    if len(sys.argv) > 4:
+        dpi = int(sys.argv[4])
 
     print(f'''
         Converting {file_name} to png images
@@ -108,6 +120,7 @@ if __name__ == "__main__":
     convert_csv_to_png(
         file_name,
         output_dir = output_dir,
+        dpi = dpi,
         scaling_factor = scaling_factor
     )
 
