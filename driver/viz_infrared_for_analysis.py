@@ -51,7 +51,7 @@ def convert_csv_to_png(
         timestamp = row['timestamp']
 
         # reshape into 2d array
-        frame = np.array(row[pixel_columns]).reshape(height, width) 
+        frame = np.array(row[pixel_columns], dtype=float).reshape(height, width) 
         frame[8][2] = (frame[7][2] + frame[9][2] + frame[8][1] + frame[8][3]) / 4
         
         # grab statistical data on the frame

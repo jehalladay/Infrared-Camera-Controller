@@ -53,8 +53,9 @@ def convert_csv_to_png(
 
         timestamp = row[TIMESTAMP]
 
-        # reshape into 2d array
-        frame = np.array(row[pixel_columns]).reshape(height, width) 
+        # reshape into 2d array with float values
+        frame = np.array(row[pixel_columns], dtype = float).reshape(height, width)
+        #  ).reshape(height, width) 
         frame[8][2] = (frame[7][2] + frame[9][2] + frame[8][1] + frame[8][3]) / 4
         
         # grab statistical data on the frame
@@ -70,6 +71,7 @@ def convert_csv_to_png(
         plt.gca().yaxis.set_major_locator(plt.NullLocator())
 
         thermal = ax.imshow(np.zeros((height, width)), vmin = min, vmax = max)
+
         thermal.set_data(frame)
 
         # save the image
