@@ -86,7 +86,8 @@ def convert_csv_to_png(
             f'{output_dir}/{img_name}.png', 
             dpi = dpi, 
             facecolor = '#FCFCFC', 
-            bbox_inches = 'tight'
+            bbox_inches = 'tight',
+            pad_inches = 0
         )
 
         plt.close(fig)
