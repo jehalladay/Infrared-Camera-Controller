@@ -45,7 +45,7 @@ def convert_csv_to_png(
         os.mkdir(output_dir)
 
     for i in range(len(df)):
-        
+
         # grab the next row
         row = df.iloc[i]
 
@@ -80,7 +80,6 @@ def convert_csv_to_png(
         #below for thermal
         fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
         plt.close(fig)
-        
 
 
 if __name__ == "__main__":
