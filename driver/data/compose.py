@@ -10,12 +10,12 @@ from PIL import Image
 img1 = Image.open('./Once_2022_10_30/02_15_41/mp.png')
 # Opening the secondary image (overlay image)
 img2 = Image.open('./here/frame_0.png')
-img2.resize((3,3))
+img2.resize((24,32),Image.ANTIALIAS)
 img2.putalpha(150)
   
 # Pasting img2 image on top of img1 
 # starting at coordinates (0, 0)
-img1.paste(img2, (0,0), mask = img2)
+img1.paste(img2, (278,218), mask = img2) #The tuple determines position of overlay
   
 # Displaying the image
 img1.show()
