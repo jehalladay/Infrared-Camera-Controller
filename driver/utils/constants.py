@@ -14,6 +14,8 @@ STORAGE = 'storage'
 RECORDING = 'recording'
 TRIGGERS = 'triggers'
 COLOR_CHANNELS = 'color_channels'
+ALPHA = 'alpha'
+PLACEMENT = 'placement'
 MODE = 'mode'
 MP = "MP"
 MLX = "MLX"
@@ -43,6 +45,9 @@ TIME_FORMAT = '%H_%M_%S'
 STALL_TIME = 0.01 # seconds until we try to get a new frame after failing to get one
 TIMESTAMP = 'timestamp'
 DPI = 'dpi'
+X = 'x'
+Y = 'y'
+ALPHA = 'alpha'
 
 # Spectrometer constants
 SPECTRO_ADDRESS = 0x49

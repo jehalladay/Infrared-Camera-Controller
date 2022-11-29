@@ -2,5 +2,14 @@
     "storage": {
         "path": "./data/raw_infra_{conversion_date}/"
     },
-    "scaling_factor": 2
+    "scaling_factor": 2,
+    "size": {
+        "width": 32,
+        "height": 24
+    },
+    "placement": {
+        "x": 270,
+        "y": 210
+    },
+    "alpha": 150
 }
