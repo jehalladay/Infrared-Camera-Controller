@@ -10,12 +10,13 @@ import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 
 from utils.constants import (
-    COMPOSE_CONFIG_JSON,
+    VISUALIZE_CONFIG_JSON,
     DATE_FORMAT,
     PATH,
     SCALING_FACTOR,
     STORAGE
 )
+
 warnings.filterwarnings("ignore",category=cbook.mplDeprecation)
 
 def convert_csv_to_png(
@@ -47,6 +48,8 @@ def convert_csv_to_png(
         # grab the next row
         row = df.iloc[i]
 
+        timestamp = row['timestamp']
+
         # reshape into 2d array
         frame = np.array(row[pixel_columns]).reshape(height, width) 
         frame[8][2] = (frame[7][2] + frame[9][2] + frame[8][1] + frame[8][3]) / 4
@@ -70,7 +73,7 @@ def convert_csv_to_png(
         ax.set_axis_off()
 
         # save the image
-        img_name = f'frame_{i}'
+        img_name = f'frame_{i}_{timestamp}'
         print(f'Converting row {i} to {output_dir}/{img_name}.png; min: {min}, max: {max}, mean: {mean}, std: {std}')
         #below for thermal
         fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
@@ -83,7 +86,7 @@ if __name__ == "__main__":
     # get todays date
     date = time.strftime(DATE_FORMAT)
 
-    config: dict = json.load(open(COMPOSE_CONFIG_JSON, 'r'))
+    config: dict = json.load(open(VISUALIZE_CONFIG_JSON, 'r'))
     output_dir: str = config[STORAGE][PATH].format(conversion_date = date)
     scaling_factor: int = config[SCALING_FACTOR]
 

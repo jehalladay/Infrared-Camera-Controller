@@ -10,11 +10,12 @@ import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 
 from utils.constants import (
-    VISUALIZE_CONFIG_JSON,
+    COMPOSE_CONFIG_JSON,
     DATE_FORMAT,
     PATH,
     SCALING_FACTOR,
-    STORAGE
+    STORAGE,
+    TIMESTAMP
 )
 
 warnings.filterwarnings("ignore",category=cbook.mplDeprecation)
@@ -44,38 +45,43 @@ def convert_csv_to_png(
         os.mkdir(output_dir)
 
     for i in range(len(df)):
-
+        
         # grab the next row
         row = df.iloc[i]
+
+        timestamp = row[TIMESTAMP]
 
         # reshape into 2d array
         frame = np.array(row[pixel_columns]).reshape(height, width) 
         frame[8][2] = (frame[7][2] + frame[9][2] + frame[8][1] + frame[8][3]) / 4
+        
         # grab statistical data on the frame
         std, mean = np.std(frame), np.mean(frame)
 
         # set up min and max values for picture scaling
         min = mean - scaling_factor * std
         max = mean + scaling_factor * std
-
+        
         # create the image
         fig, ax = plt.subplots()
+        plt.gca().xaxis.set_major_locator(plt.NullLocator())
+        plt.gca().yaxis.set_major_locator(plt.NullLocator())
+
         thermal = ax.imshow(np.zeros((height, width)), vmin = min, vmax = max)
-        cbar = fig.colorbar(thermal)
-        cbar.set_label('Temperature [$^{\circ}$C]', fontsize=14)
-        
-        #for thermal map
         thermal.set_data(frame)
-        thermal.set_clim(vmin = min, vmax = max)
-        ax.set_axis_off()
 
         # save the image
-        img_name = f'frame_{i}'
+        img_name = f'frame_{i}_{timestamp}'
         print(f'Converting row {i} to {output_dir}/{img_name}.png; min: {min}, max: {max}, mean: {mean}, std: {std}')
+        
+        plt.margins(0,0)
+        plt.gca().set_axis_off()
+        
         #below for thermal
         fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
         plt.close(fig)
         
+
 
 if __name__ == "__main__":
     file_name = sys.argv[1]
@@ -84,7 +90,7 @@ if __name__ == "__main__":
     date = time.strftime(DATE_FORMAT)
 
     # get the default configuration for the raw image conversion
-    config: dict = json.load(open(VISUALIZE_CONFIG_JSON, 'r'))
+    config: dict = json.load(open(COMPOSE_CONFIG_JSON, 'r'))
     output_dir: str = config[STORAGE][PATH].format(conversion_date=date)
     scaling_factor: int = config[SCALING_FACTOR]
 
