@@ -2,14 +2,23 @@
 This file will take the pixel columns of a csv file and convert each row to a png image using a heatmap
 '''
 
-import os, sys, warnings
+import json, os, sys, time, warnings
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 
+from utils.constants import (
+    VISUALIZE_CONFIG_JSON,
+    DATE_FORMAT,
+    PATH,
+    SCALING_FACTOR,
+    STORAGE
+)
+
 warnings.filterwarnings("ignore",category=cbook.mplDeprecation)
+
 def convert_csv_to_png(
     file_name: str, 
     output_dir: str = 'output', 
@@ -49,20 +58,12 @@ def convert_csv_to_png(
         min = mean - scaling_factor * std
         max = mean + scaling_factor * std
 
-        # remove these line later
-        # min = mean - (std)
-        # max = np.max(frame)
-        
         # create the image
         fig, ax = plt.subplots()
         thermal = ax.imshow(np.zeros((height, width)), vmin = min, vmax = max)
         cbar = fig.colorbar(thermal)
         cbar.set_label('Temperature [$^{\circ}$C]', fontsize=14)
         
-        #Below for Seaborn map, comment out above block!
-        # ax = plt.subplots()
-        # ax = sns.heatmap(frame, vmin = min, vmax =max, cmap='rocket') #Applying range rule of thumb from stat200
-
         #for thermal map
         thermal.set_data(frame)
         thermal.set_clim(vmin = min, vmax = max)
@@ -75,16 +76,35 @@ def convert_csv_to_png(
         fig.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
         plt.close(fig)
         
-        #this one for seaborn
-        # plt.savefig(f'{output_dir}/{img_name}.png', dpi=300, facecolor='#FCFCFC', bbox_inches='tight')
 
 if __name__ == "__main__":
     file_name = sys.argv[1]
-    output_dir = sys.argv[2]
-    scaling_factor = float(sys.argv[3])
+
+    # get todays date
+    date = time.strftime(DATE_FORMAT)
+
+    # get the default configuration for the raw image conversion
+    config: dict = json.load(open(VISUALIZE_CONFIG_JSON, 'r'))
+    output_dir: str = config[STORAGE][PATH].format(conversion_date=date)
+    scaling_factor: int = config[SCALING_FACTOR]
+
+    # allow parameters to be passed in to override the default configuration
+    if len(sys.argv) > 2:
+        output_dir = sys.argv[2]
+    
+    if len(sys.argv) > 3:
+        scaling_factor = float(sys.argv[3])
 
     print(f'''
         Converting {file_name} to png images
         Output directory: {output_dir}
     ''')
-    convert_csv_to_png(file_name, output_dir = output_dir, scaling_factor = scaling_factor)
+
+    convert_csv_to_png(
+        file_name,
+        output_dir = output_dir,
+        scaling_factor = scaling_factor
+    )
+
+    print('Done!')
+

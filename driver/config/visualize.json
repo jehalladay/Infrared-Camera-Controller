@@ -1,0 +1,6 @@
+{
+    "storage": {
+        "path": "./data/infra_viz_{conversion_date}/"
+    },
+    "scaling_factor": 2
+}

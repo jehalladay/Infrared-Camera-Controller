@@ -1,0 +1,6 @@
+{
+    "storage": {
+        "path": "./data/raw_infra_{conversion_date}/"
+    },
+    "scaling_factor": 2
+}

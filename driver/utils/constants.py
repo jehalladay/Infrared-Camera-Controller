@@ -5,6 +5,8 @@ MP_CONFIG_JSON = './config/mp.json'
 SPECTRO_CONFIG_JSON = './config/spectro.json'
 ONCE_CONFIG_JSON = './config/once.json'
 RADAR_CONFIG_JSON = './config/radar.json'
+VISUALIZE_CONFIG_JSON = './config/visualize.json'
+COMPOSE_CONFIG_JSON = './config/compose.json'
 
 # Top level keys
 SIZE = 'size'
@@ -44,3 +46,5 @@ STALL_TIME = 0.01 # seconds until we try to get a new frame after failing to get
 SPECTRO_ADDRESS = 0x49
 SPECTRO_GPIO = 21
 
+# Visualization constants
+SCALING_FACTOR = "scaling_factor"
