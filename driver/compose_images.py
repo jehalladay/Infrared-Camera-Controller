@@ -9,6 +9,12 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 
+
+from cv2 import (
+    imwrite
+)
+
+
 from PIL import Image
 
 from utils.constants import (
@@ -60,12 +66,27 @@ def compose_images(
 
     bottom.paste(top, placment_of_top_left_of_bottom_image, mask = top)
 
-    # strip old file names of their extensions to make new name
-    file_name: str = f'{bottom_image_file.split(".")[0]}_{top_image_file.split(".")[0]}_composed.png'
+    # standardize the format of the input image files
+    bottom_image_file = bottom_image_file.replace("\\\\","/")
+    bottom_image_file = bottom_image_file.replace("\\","/")
+    top_image_file = top_image_file.replace("\\\\","/")
+    top_image_file = top_image_file.replace("\\","/")
 
+    bottom_name = bottom_image_file.split("/")[-1].split(".")[0]
+    top_name = top_image_file.split("/")[-1].split(".")[0]
+
+    # strip old file names of their extensions to make new name
+    file_name: str = f'{bottom_name}_{top_name}_composed.png'
+
+    print(bottom_image_file.split("."))
+
+    print(f'Output file name:', file_name)
 
     # save the image
-    bottom.save(os.path.join(output_dir, file_name))
+    # bottom.save(os.path.join(output_dir, file_name).replace("\\","/"))
+
+    # save the image under os.path.join(output_dir, file_name).replace("\\","/") using imwrite
+    imwrite(file_name, np.array(bottom))
 
     
 if __name__ == "__main__":
