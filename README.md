@@ -1,6 +1,6 @@
 # Multi-Modal Sensor Array
 
-![Dirigible](dirigible_image.jpg)
+![Fake Dirigible by Stable Diffusion](./images/fake_dirigible.jpeg)
 
 ## Overview
 
