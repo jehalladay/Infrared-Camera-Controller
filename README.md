@@ -26,7 +26,7 @@ The project provides a comprehensive set of drivers designed to interface with t
 
 ### Data Collection and Storage
 
-The drivers are responsible for efficiently collecting data from the sensor array. The collected data is then stored in a well-structured manner, ensuring integrity and easy access. The project incorporates robust data storage mechanisms to handle the potentially large volume of data generated during the Dirigible's jungle expeditions.
+The drivers are responsible for efficiently collecting data from the sensor array. The collected data is then stored in a manner that suits the memory and computational constraints of the microcontrollers on the dirigible. Image data from the MP is much larger than the data from the infrared camera and the spectrometer, so we store the data in different ways. The MP data is stored in a compressed image format, while the infrared camera and spectrometer data are stored as raw numeric data. The data is stored in a on-board SQLite database. The dirigible will offload the data to a server when it is in range of a WiFi network or back at the servicing station.
 
 ### Configuration Files
 
@@ -51,6 +51,12 @@ Additionally, the project provides a configurable radar graph capable of display
 ![Stove 2 IR Image](./images/stove_line/frame_0.png)
 
 ![Stove 2 IR Overlay](./images/stove_line/stove_line_composed.png)
+
+Finally, we experimented with removing the fisheye effect, but ultimately concluded that objects at the periphery of the image were not as important as those in the center. The fisheye effect is a result of the wide-angle lens on the MP camera. The image below shows the difference between the original image and the image with the fisheye effect removed.
+
+![Fisheye Effect](./images/uncallibrated_checkers.jpg)
+
+![Fisheye Effect Removed](./images/callibrated_checkers.jpg)
 
 ## Contributors
 
