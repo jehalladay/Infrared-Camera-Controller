@@ -46,7 +46,7 @@ Additionally, the project provides a configurable radar graph capable of display
 
 ![Stove 2 MP Image](./images/stove_line/mp.png)
 
-![Stove 2 IR Image](./images/fullStove2/frame_0.png)
+![Stove 2 IR Image](./images/stove_line/frame_0.png)
 
-![Stove 2 IR Overlay](./images/fullStove2/stove_line_composed.png)
+![Stove 2 IR Overlay](./images/stove_line/stove_line_composed.png)
 
