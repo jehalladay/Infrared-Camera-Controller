@@ -52,3 +52,23 @@ Additionally, the project provides a configurable radar graph capable of display
 
 ![Stove 2 IR Overlay](./images/stove_line/stove_line_composed.png)
 
+## Contributors
+
+The Multi-Modal Sensor Array project has benefited from the contributions of the following individuals:
+
+### Alex Antoun
+
+- Implemented I2C protocols and wiring to integrate the spectrometer and Infrared camera devices into the sensor array.
+- Developed software to collect data from the Mega-pixel wide-angle camera.
+- Wrote code, including testing, executed by other components to gather data.
+- Tested hardware integration and performed load balancing of CPU resources.
+
+### James Halladay
+
+- Developed software to implement hardware drivers based on the state machine provided in the presentation.
+- Implemented the entire back-end system for accessing and storing data.
+- Responsible for converting numeric data into human-readable images and graphs.
+- Conducted testing of software modules for accessing and processing numeric data.
+- Successfully resolved merge conflicts in a large database of files.
+
+Both Alex Antoun and James Halladay contributed to all aspects of the project, including sensor integration, driver implementation, data collection and storage, and data visualization. However, the specific responsibilities mentioned above were assigned to them with the ultimate responsibility for their successful implementation.
